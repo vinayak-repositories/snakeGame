@@ -199,3 +199,56 @@ function difficulty() {
     render();
   }, 200);
 }
+
+
+//mobile controls
+
+
+/* =========================
+   MOBILE SWIPE CONTROLS
+========================= */
+
+let startX = 0;
+let startY = 0;
+let endX = 0;
+let endY = 0;
+
+// when finger touches screen
+document.addEventListener("touchstart", (e)=>{
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+}, {passive:true});
+
+// when finger leaves screen
+document.addEventListener("touchend", (e)=>{
+    endX = e.changedTouches[0].clientX;
+    endY = e.changedTouches[0].clientY;
+    handleSwipe();
+}, {passive:true});
+
+function handleSwipe(){
+    const dx = endX - startX;
+    const dy = endY - startY;
+
+    // ignore tiny swipes
+    if(Math.abs(dx) < 30 && Math.abs(dy) < 30) return;
+
+    // helper to avoid reverse movement
+    function setDir(newDir){
+        if(direction==="up" && newDir==="down") return;
+        if(direction==="down" && newDir==="up") return;
+        if(direction==="left" && newDir==="right") return;
+        if(direction==="right" && newDir==="left") return;
+        direction = newDir;
+    }
+
+    if(Math.abs(dx) > Math.abs(dy)){
+        // horizontal swipe
+        if(dx > 0) setDir("right");
+        else setDir("left");
+    } else {
+        // vertical swipe
+        if(dy > 0) setDir("down");
+        else setDir("up");
+    }
+}

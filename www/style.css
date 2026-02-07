@@ -143,3 +143,8 @@ section .infos{
 .btn-difficulty{
     border: none;
 }
+
+/* mobile controls */
+body{
+    touch-action: none;
+}
